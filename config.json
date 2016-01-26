@@ -1,0 +1,9 @@
+{
+  "procName": "weblogin",
+  "realm": "WebLogin",
+  "port": 443,
+  "sslKey": "./key.pem",
+  "sslCert": "./cert.pem",
+  "htpasswd": "./.htpasswd"
+}
+

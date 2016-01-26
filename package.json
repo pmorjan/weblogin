@@ -1,0 +1,35 @@
+{
+  "name": "weblogin",
+  "version": "0.1.0",
+  "description": "server login via web browser",
+  "main": "app.js",
+  "author": "Peter Morjan <pmorjan@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prepasswd": "touch .htpasswd",
+    "passwd": "htpasswd .htpasswd",
+    "postpasswd": "chmod 0600 .htpasswd",
+    "start": "NODE_ENV=production node app.js",
+    "certs": "node bin/create-ssl-certs.js",
+    "build": "npm rebuild --build-from-source"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pmorjan/weblogin.git"
+  },
+  "dependencies": {
+    "compression": "^1.6.0",
+    "express": "^4.13.3",
+    "helmet": "^1.1.0",
+    "htpasswd": "^2.2.1",
+    "http-auth": "^2.2.8",
+    "morgan": "^1.6.1",
+    "node-forge": "^0.6.38",
+    "pty.js": "^0.3.0",
+    "ursa": "^0.9.1",
+    "ws": "^1.0.1"
+  },
+  "bin": {
+    "weblogin": "./bin/weblogin.js"
+  }
+}

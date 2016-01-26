@@ -1,0 +1,39 @@
+<!doctype html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weblogin</title>
+<style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0px;
+    }
+    #terminal {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 90%;
+    }
+    input {
+      width: 50%;
+    }
+    button {
+      width: 25%;
+      height: 4em;
+    }
+    #user-input {
+      display: flex;
+      flex-direction: center;
+      justify-content: center;
+    }
+</style>
+<script src="hterm_all.min.js"></script>
+<script src="main.js"></script>
+<div id="terminal"></div>
+<div id="user-input">
+    <input id="clipboard" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type command here">
+    <button onclick="main.submitClipboard()">Submit</button>
+    <button onclick="main.clearClipboard()">Clear</button>
+</div>
+
