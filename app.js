@@ -15,14 +15,14 @@ const morgan = require('morgan')
 const pty = require('pty.js')
 
 const cfg = require('./config.json')
-cfg.port = process.argv[2] ? parseInt(process.argv[2], 10) : cfg.port
+const port = process.argv[2] ? parseInt(process.argv[2], 10) : cfg.port
 
 function log () {
   console.log('%s - %s', new Date().toISOString(),
     util.format.apply(util.format, arguments))
 }
 
-if (process.geteuid() !== 0) {
+if (port < 1024 && process.geteuid() !== 0) {
   log('Error: must run as root')
   process.exit(1)
 }
@@ -66,8 +66,8 @@ const server = https.createServer({
 .on('error', function (err) {
   console.log('server error:', err)
 })
-.listen(cfg.port, function (err) {
-  log('listening on port:', cfg.port)
+.listen(port, function (err) {
+  log('listening on port:', port)
 })
 
 //
