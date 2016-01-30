@@ -18,7 +18,7 @@ export PATH=$PATH:/usr/local/node/bin
 
 ### Install WebLogin
 ```
-git clone https://nuc.example.com/git/morjan/weblogin.git
+git clone https://github.com/pmorjan/weblogin.git
 cd weblogin
 npm install
 ```
@@ -35,7 +35,9 @@ npm run passwd <username>
 
 ## start the WebLogin server
 ```
-npm start
+npm start [port]
+or
+sudo node app.js [port]
 ```
 
 ### connect from your browser
