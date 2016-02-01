@@ -5,6 +5,7 @@ const fs = require('fs')
 const https = require('https')
 const path = require('path')
 const util = require('util')
+const os = require('os')
 //
 const WSserver = require('ws').Server
 const auth = require('http-auth')
@@ -22,7 +23,7 @@ function log () {
     util.format.apply(util.format, arguments))
 }
 
-if (port < 1024 && process.geteuid() !== 0) {
+if ((os.platform() === 'linux' || port < 1024) && process.geteuid() !== 0) {
   log('Error: must run as root')
   process.exit(1)
 }
