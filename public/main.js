@@ -16,14 +16,15 @@ var main = main || (function () {
   }
 
   Command.prototype.run = function () {
-    this.args.io.onVTKeystroke = (str) => {
-      this.ws.sendJSON({str: str})
+    var self = this
+    this.args.io.onVTKeystroke = function (str) {
+      self.ws.sendJSON({str: str})
     }
-    this.args.io.sendString = (str) => {
-      this.ws.sendJSON({str: str})
+    this.args.io.sendString = function (str) {
+      self.ws.sendJSON({str: str})
     }
-    this.args.io.onTerminalResize = (col, row) => {
-      this.ws.sendJSON({resize: {col: col, row: row}})
+    this.args.io.onTerminalResize = function (col, row) {
+      self.ws.sendJSON({resize: {col: col, row: row}})
     }
   }
 

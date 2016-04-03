@@ -2,7 +2,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 # WebLogin
-### Remote UNIX login via web-browser (Firefox or Chrome) 
+### Remote UNIX login via web-browser
 Does not require any plugin or browser extension.
 
 ![ScreenShot](img/weblogin.png)
@@ -11,7 +11,7 @@ Does not require any plugin or browser extension.
 Download and install latest Node.js binary package from https://nodejs.org/dist/latest/
 ```
 e.g. as root:
-tar xf node-v*.tar.gz 
+tar xf node-v*.tar.gz
 mv node-v*.tar.gz /usr/local/node
 export PATH=$PATH:/usr/local/node/bin
 ```

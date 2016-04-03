@@ -54,7 +54,7 @@ app.use(auth.connect(auth.basic({
 })))
 app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', function (req, res) {
-  res.sendfile(__dirname + 'public/index.html')
+  res.sendfile(path.join(__dirname, 'public/index.html'))
 })
 
 //
@@ -67,7 +67,7 @@ const server = https.createServer({
 .on('error', function (err) {
   console.log('server error:', err)
 })
-.listen(port, function (err) {
+.listen(port, function () {
   log('listening on port:', port)
 })
 
