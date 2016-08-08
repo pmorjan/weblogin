@@ -1,0 +1,21 @@
+# npm install
+# npm run passwd demo
+# npm run certs
+# sudo cp weblogin.service /etc/systemd/system/
+# sudo systemctl enable weblogin.service
+# sudo systemctl start weblogin.service
+
+[Unit]
+Description=login via https
+After=syslog.target network.target
+
+[Service]
+WorkingDirectory=/opt/weblogin
+ExecStart=/usr/local/node/bin/node app.js
+Environment=NODE_ENV=production
+Type=simple
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
