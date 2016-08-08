@@ -3,6 +3,7 @@
 'use strict'
 const fs = require('fs')
 const https = require('https')
+const os = require('os')
 const path = require('path')
 const util = require('util')
 //
@@ -21,6 +22,11 @@ const port = parseInt(process.argv[2]) || parseInt(process.env.PORT) || 443
 function log () {
   console.log('%s - %s', new Date().toISOString(),
     util.format.apply(null, arguments))
+}
+
+if ((os.platform() === 'linux' || port < 1024) && process.geteuid() !== 0) {
+  log('Error: must run as root')
+  process.exit(1)
 }
 
 const login = ['/bin/login', '/usr/bin/login'].find(function (name) {
