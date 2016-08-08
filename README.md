@@ -42,13 +42,13 @@ sudo node app.js [port]
 
 ### connect from your browser
 ```
-https://<username>@<your server ip>
+https://<username>:<password>@<your server ip>
 ```
 
 ### how to rebuild hterm_all.js (optional)
 ```
 git clone https://chromium.googlesource.com/apps/libapps
 cd libapps
-LIBDOT_SEARCH_PATH=$PWD ./libdot/bin/concat.sh -i ./hterm/concat/hterm_all.concat -o public/hterm_all.js
+LIBDOT_SEARCH_PATH=$PWD ./libdot/bin/concat.sh -i ./hterm/concat/hterm_all.concat -o ../public/hterm/hterm_all.js
 ```
 

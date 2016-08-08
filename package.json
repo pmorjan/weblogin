@@ -1,6 +1,6 @@
 {
   "name": "weblogin",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "server login via web browser",
   "main": "app.js",
   "author": "Peter Morjan <pmorjan@gmail.com>",
@@ -15,21 +15,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:pmorjan/weblogin.git"
+    "url": "https://github.com/pmorjan/weblogin.git"
   },
   "dependencies": {
-    "compression": "^1.6.0",
-    "express": "^4.13.3",
-    "helmet": "^1.1.0",
-    "htpasswd": "^2.2.1",
-    "http-auth": "^2.2.8",
-    "morgan": "^1.6.1",
-    "node-forge": "^0.6.38",
-    "pty.js": "^0.3.0",
-    "ursa": "^0.9.1",
-    "ws": "^1.0.1"
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "helmet": "^2.1.2",
+    "htpasswd": "^2.2.6",
+    "http-auth": "^2.4.4",
+    "morgan": "^1.7.0",
+    "node-forge": "^0.6.42",
+    "ptyw.js": "^0.4.0",
+    "ursa": "^0.9.4",
+    "ws": "^1.1.1"
   },
   "bin": {
     "weblogin": "./bin/weblogin.js"
+  },
+  "engines": {
+    "node": "^6.3.1"
   }
 }

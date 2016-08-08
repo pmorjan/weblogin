@@ -355,10 +355,16 @@ lib.colors.x11ToCSS = function(v) {
  * @return {string|Array.<string>} The converted value or values.
  */
 lib.colors.hexToRGB = function(arg) {
+  var hex16 = lib.colors.re_.hex16;
+  var hex24 = lib.colors.re_.hex24;
+
   function convert(hex) {
-    var re = (hex.length == 4) ?
-        lib.colors.re_.hex16 : lib.colors.re_.hex24;
-    var ary = hex.match(re)
+    if (hex.length == 4) {
+      hex = hex.replace(hex16, function(h, r, g, b) {
+        return "#" + r + r + g + g + b + b;
+      });
+    }
+    var ary = hex.match(hex24);
     if (!ary)
       return null;
 
@@ -9234,6 +9240,7 @@ hterm.ScrollPort.prototype.decorate = function(div) {
       'display: block;' +
       'font-family: monospace;' +
       'font-size: 15px;' +
+      'font-variant-ligatures: none;' +
       'height: 100%;' +
       'overflow-y: scroll; overflow-x: hidden;' +
       'white-space: pre;' +
@@ -12856,6 +12863,10 @@ hterm.Terminal.prototype.showZoomWarning_ = function(state) {
         '-webkit-user-select: none;' +
         '-moz-text-size-adjust: none;' +
         '-moz-user-select: none;');
+
+    this.zoomWarningNode_.addEventListener('click', function(e) {
+      this.parentNode.removeChild(this);
+    });
   }
 
   this.zoomWarningNode_.textContent = lib.MessageManager.replaceReferences(
@@ -13135,9 +13146,9 @@ hterm.Terminal.prototype.onMouse_ = function(e) {
   }
 
   if (!reportMouseEvents) {
-    if (e.type == 'dblclick') {
+    if (e.type == 'dblclick' && this.copyOnSelect) {
       this.screen_.expandSelection(this.document_.getSelection());
-      hterm.copySelectionToClipboard(this.document_);
+      this.copySelectionToClipboard(this.document_);
     }
 
     if (e.type == 'mousedown' && e.which == this.mousePasteButton)
@@ -13145,7 +13156,7 @@ hterm.Terminal.prototype.onMouse_ = function(e) {
 
     if (e.type == 'mouseup' && e.which == 1 && this.copyOnSelect &&
         !this.document_.getSelection().isCollapsed) {
-      hterm.copySelectionToClipboard(this.document_);
+      this.copySelectionToClipboard(this.document_);
     }
 
     if ((e.type == 'mousemove' || e.type == 'mouseup') &&
@@ -16926,22 +16937,22 @@ lib.resource.add('hterm/audio/bell', 'audio/ogg;base64',
 );
 
 lib.resource.add('hterm/concat/date', 'text/plain',
-'Thu, 07 Jan 2016 20:32:35 +0000' +
+'Mon, 08 Aug 2016 09:44:54 +0000' +
 ''
 );
 
 lib.resource.add('hterm/changelog/version', 'text/plain',
-'1.56' +
+'1.58' +
 ''
 );
 
 lib.resource.add('hterm/changelog/date', 'text/plain',
-'2015-06-16' +
+'2016-07-12' +
 ''
 );
 
 lib.resource.add('hterm/git/HEAD', 'text/plain',
-'a13cbbfa3e01368525ead46868343ed01f864a45' +
+'49f8641dd055afaad9eadcd8553804eff0dd2637' +
 ''
 );
 

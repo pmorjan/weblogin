@@ -5,7 +5,6 @@ const fs = require('fs')
 const https = require('https')
 const path = require('path')
 const util = require('util')
-const os = require('os')
 //
 const WSserver = require('ws').Server
 const auth = require('http-auth')
@@ -13,19 +12,15 @@ const compression = require('compression')
 const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
-const pty = require('pty.js')
+const pty = require('ptyw.js')
 
-const cfg = require('./config.json')
-const port = process.argv[2] ? parseInt(process.argv[2], 10) : cfg.port
+const key = fs.readFileSync('./key.pem')
+const cert = fs.readFileSync('./cert.pem')
+const port = parseInt(process.argv[2]) || parseInt(process.env.PORT) || 443
 
 function log () {
   console.log('%s - %s', new Date().toISOString(),
-    util.format.apply(util.format, arguments))
-}
-
-if ((os.platform() === 'linux' || port < 1024) && process.geteuid() !== 0) {
-  log('Error: must run as root')
-  process.exit(1)
+    util.format.apply(null, arguments))
 }
 
 const login = ['/bin/login', '/usr/bin/login'].find(function (name) {
@@ -35,11 +30,7 @@ const login = ['/bin/login', '/usr/bin/login'].find(function (name) {
   } catch (e) {}
 })
 
-process.title = cfg.procName
-
-process.on('uncaughtException', function (err) {
-  log('uncaughtException: ' + err.stack)
-})
+process.title = 'weblogin'
 
 //
 // app
@@ -49,8 +40,8 @@ app.use(helmet())
 app.use(compression())
 app.use(morgan('dev'))
 app.use(auth.connect(auth.basic({
-  realm: cfg.realm,
-  file: cfg.htpasswd
+  realm: 'WebLogin',
+  file: './.htpasswd'
 })))
 app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', function (req, res) {
@@ -61,11 +52,11 @@ app.get('/', function (req, res) {
 // server
 //
 const server = https.createServer({
-  key: fs.readFileSync(cfg.sslKey),
-  cert: fs.readFileSync(cfg.sslCert)
+  key: key,
+  cert: cert
 }, app)
 .on('error', function (err) {
-  console.log('server error:', err)
+  log('server error:', err)
 })
 .listen(port, function () {
   log('listening on port:', port)
@@ -107,7 +98,13 @@ wss.on('connection', function (ws) {
   })
 
   term.on('error', function (err) {
-    // todo
+    if (err.code === 'EIO' && err.errno === 'EIO' && err.syscall === 'read') {
+      // ignore error on close evt
+      log('%s : known error ignored', term.pid)
+    } else {
+      log('%s : error:%s pid:%s', err, term.pid)
+    }
+    ws.terminate()
   })
 
   ws.on('message', function (data, flags) {
@@ -141,3 +138,4 @@ wss.on('connection', function (ws) {
 wss.on('error', function (err) {
   log('wss error:', err.stack)
 })
+

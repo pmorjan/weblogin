@@ -11,6 +11,7 @@ var main = main || (function () {
   var terminal
 
   function Command (ws, args) {
+    // args: {argString,io,environment,onExit}
     this.args = args
     this.ws = ws
   }
@@ -57,16 +58,17 @@ var main = main || (function () {
     ws.onclose = (function () {
       var timer
       return function (event) {
-        console.log('ws.onclose evt, code:%s reason:%s ', event.reason, event.code)
-        //terminal.showOverlay('ws.onclose evt')
+        console.log('ws.onclose evt, code:%s reason:%s ', event.code, event.reason)
+        // terminal.showOverlay('ws.onclose evt')
         clearTimeout(timer)
         timer = setTimeout(function () {
           createWebsocket()
-        }, 5000)
+        }, 2500)
       }
     })()
 
     ws.onerror = function (err) {
+      console.error(err.message)
     }
   }
 
