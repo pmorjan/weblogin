@@ -73,15 +73,14 @@ const server = https.createServer({
 //
 const wss = new WSserver({server: server})
 
-wss.on('connection', function (ws) {
+wss.on('connection', function (ws, req) {
   const term = pty.spawn(login, [], {
     name: 'xterm-color',
     cols: 80,
     rows: 30
   })
 
-  log('%s : wss connection evt PTY=%s IP=%s', term.pid, term.pty,
-      ws.upgradeReq.connection.remoteAddress)
+  log('%s : wss connection evt PTY=%s IP=%s', term.pid, term.pty, req.connection.remoteAddress)
 
   term.on('data', function (data) {
     // send data to client
@@ -106,7 +105,6 @@ wss.on('connection', function (ws) {
   term.on('error', function (err) {
     if (err.code === 'EIO' && err.errno === 'EIO' && err.syscall === 'read') {
       // ignore error on close evt
-      log('%s : known error ignored', term.pid)
     } else {
       log('%s : error:%s pid:%s', err, term.pid)
     }
@@ -144,4 +142,3 @@ wss.on('connection', function (ws) {
 wss.on('error', function (err) {
   log('wss error:', err.stack)
 })
-
