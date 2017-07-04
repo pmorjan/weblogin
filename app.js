@@ -37,6 +37,8 @@ const login = ['/bin/login', '/usr/bin/login'].find(function (name) {
 })
 
 process.title = 'weblogin'
+process.on('SIGTERM', process.exit)
+process.on('SIGINT', process.exit)
 
 //
 // app
